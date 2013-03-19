@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>jQuery stickyHeaders</title>
+  <link rel="stylesheet" href="css/font-awesome.min.css">
+  <link href="css/style.css" rel="stylesheet">
+  <link href="../libs/simple-modal/simplemodal.css" rel="stylesheet">
+
+  <script src="../libs/jquery/jquery.js"></script>
+  <script src="../libs/jquery-throttle-debounce/jquery.ba-throttle-debounce.min.js"></script>
+  <script src="../libs/simple-modal/simple-modal.js"></script>
+  <script src="../src/jquery-stickyheaders.js"></script>
+  <script>
+    $(function() {
+      $('<button class="btn copy-btn" title="Link to this item"><i class="icon-link"></i></button>')
+        .hide()
+        .prependTo('li');
+
+      $('#sticky-list').stickyHeaders()
+        .on('click', '.copy-btn', function() {
+          var id = $(this).parent().children('.sticky-header').prop('id');
+          $.fn.SimpleModal({
+            hideHeader: true,
+            closeButton: false,
+            btn_ok: 'Close window',
+            width: 600,
+            model: 'alert',
+            contents: location.href + '#' + id
+          }).showModal();
+        })
+        .on('mouseout', 'li', function() {
+          $('.copy-btn').hide();
+          $('.sticky-header').removeClass('highlight');
+          return false;
+        })
+        .on('mouseover', 'li', function() {
+          $('.copy-btn').hide();
+          $('.sticky-header').removeClass('highlight');
+          $(this).children('.copy-btn').show();
+          $(this).children('.sticky-header')
+            .add($(this).parentsUntil('#sticky-list').children('.sticky-header'))
+            .addClass('highlight');
+          return false;
+        });
+        
+    });
+  </script>
+</head>
+<body>
+  <div class="container">
+    <header class="hero-unit">
+      <h1>jQuery stickyHeaders</h1>
+      <p>Overly attached list labels, just want to be closer to you...</p>
+    </header>
+    <h2>Demo</h2>
+    <p>Scroll down to see how <code>.stickyHeaders()</code> can help you keep track of your place in a long, heavily nested list.</p>
+    <ol id="sticky-list">
+      <li><span class="sticky-header">(1)</span> List item one Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus hendrerit. Pellentesque aliquet nibh nec urna. In nisi neque, aliquet vel, dapibus id, mattis vel, nisi. Sed pretium, ligula sollicitudin laoreet viverra, tortor libero sodales leo, eget blandit nunc tortor eu nibh. Nullam mollis. Ut justo. Suspendisse potenti.</li>
+      <li><span class="sticky-header">(2)</span> The second item on the list Suspendisse mauris. Fusce accumsan mollis eros. Pellentesque a diam sit amet mi ullamcorper vehicula. Integer adipiscing risus a sem. Nullam quis massa sit amet nibh viverra malesuada. Nunc sem lacus, accumsan quis, faucibus non, congue vel, arcu. Ut scelerisque hendrerit tellus. Integer sagittis. Vivamus a mauris eget arcu gravida tristique. Nunc iaculis mi in ante. Vivamus imperdiet nibh feugiat est.</li>
+      <li><span class="sticky-header">(3)</span> Number three is a bit longer, with some lorem ipsum for good measure. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        <ol id="3">
+          <li><span class="sticky-header">(a)</span> A nested ordered list Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris sit amet orci. Aenean dignissim pellentesque felis. 
+            <ol>
+              <li><span class="sticky-header">(i)</span> A nested ordered list Suspendisse mauris. Fusce accumsan mollis eros. Pellentesque a diam sit amet mi ullamcorper vehicula. Integer adipiscing risus a sem. Nullam quis massa sit amet nibh viverra malesuada. Nunc sem lacus, accumsan quis, faucibus non, congue vel, arcu. Ut scelerisque hendrerit tellus. Integer sagittis. Vivamus a mauris eget arcu gravida tristique. Nunc iaculis mi in ante. Vivamus imperdiet nibh feugiat est.
+                <ol>
+                  <li><span class="sticky-header">(A)</span> A nested ordered list Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus hendrerit. Pellentesque aliquet nibh nec urna. In nisi neque, aliquet vel, dapibus id, mattis vel, nisi. Sed pretium, ligula sollicitudin laoreet viverra, tortor libero sodales leo, eget blandit nunc tortor eu nibh. Nullam mollis. Ut justo. Suspendisse potenti.</li>
+                  <li><span class="sticky-header">(B)</span> A nested list</li>
+                  <li><span class="sticky-header">(C)</span> A nested list Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus hendrerit. Pellentesque aliquet nibh nec urna. In nisi neque, aliquet vel, dapibus id, mattis vel, nisi. Sed pretium, ligula sollicitudin laoreet viverra, tortor libero sodales leo, eget blandit nunc tortor eu nibh. Nullam mollis. Ut justo. Suspendisse potenti.
+                    <ol>
+                      <li><span class="sticky-header">(I)</span> A nested ordered list Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus.</li>
+                      <li><span class="sticky-header">(II)</span> A nested list Suspendisse mauris. Fusce accumsan mollis eros. Pellentesque a diam sit amet mi ullamcorper vehicula. Integer adipiscing risus a sem. Nullam quis massa sit amet nibh viverra malesuada. Nunc sem lacus, accumsan quis, faucibus non, congue vel, arcu. Ut scelerisque hendrerit tellus. Integer sagittis. Vivamus a mauris eget arcu gravida tristique. Nunc iaculis mi in ante. Vivamus imperdiet nibh feugiat est.</li>
+                    </ol>
+                  </li>
+                  <li><span class="sticky-header">(D)</span> A nested list</li>
+                </ol>
+              </li>
+              <li><span class="sticky-header">(ii)</span> A nested list Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris sit amet orci. Aenean dignissim pellentesque felis.</li>
+              <li><span class="sticky-header">(iii)</span> A nested list Suspendisse mauris. Fusce accumsan mollis eros. Pellentesque a diam sit amet mi ullamcorper vehicula. Integer adipiscing risus a sem. Nullam quis massa sit amet nibh viverra malesuada. Nunc sem lacus, accumsan quis, faucibus non, congue vel, arcu. Ut scelerisque hendrerit tellus. Integer sagittis. Vivamus a mauris eget arcu gravida tristique. Nunc iaculis mi in ante. Vivamus imperdiet nibh feugiat est.</li>
+              <li><span class="sticky-header">(iv)</span> A nested list</li>
+            </ol>
+          </li>
+          <li><span class="sticky-header">(b)</span> A nested list Ut convallis, sem sit amet interdum consectetuer, odio augue aliquam leo, nec dapibus tortor nibh sed augue. Integer eu magna sit amet metus fermentum posuere. Morbi sit amet nulla sed dolor elementum imperdiet. Quisque fermentum. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Pellentesque adipiscing eros ut libero. Ut condimentum mi vel tellus. Suspendisse laoreet. Fusce ut est sed dolor gravida convallis. Morbi vitae ante. Vivamus ultrices luctus nunc. Suspendisse et dolor. Etiam dignissim. Proin malesuada adipiscing lacus. Donec metus. Curabitur gravida.
+            <ol>
+              <li><span class="sticky-header">(i)</span> A nested ordered list
+                <ol>
+                  <li><span class="sticky-header">(A)</span> A nested ordered list Suspendisse mauris. Fusce accumsan mollis eros. Pellentesque a diam sit amet mi ullamcorper vehicula. Integer adipiscing risus a sem. Nullam quis massa sit amet nibh viverra malesuada. Nunc sem lacus, accumsan quis, faucibus non, congue vel, arcu. Ut scelerisque hendrerit tellus. Integer sagittis. Vivamus a mauris eget arcu gravida tristique. Nunc iaculis mi in ante. Vivamus imperdiet nibh feugiat est.</li>
+                  <li><span class="sticky-header">(B)</span> A nested list Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus.</li>
+                  <li><span class="sticky-header">(C)</span> A nested list Ut convallis, sem sit amet interdum consectetuer, odio augue aliquam leo, nec dapibus tortor nibh sed augue. Integer eu magna sit amet metus fermentum posuere. Morbi sit amet nulla sed dolor elementum imperdiet. Quisque fermentum. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Pellentesque adipiscing eros ut libero. Ut condimentum mi vel tellus. Suspendisse laoreet. Fusce ut est sed dolor gravida convallis. Morbi vitae ante. Vivamus ultrices luctus nunc. Suspendisse et dolor. Etiam dignissim. Proin malesuada adipiscing lacus. Donec metus. Curabitur gravida.
+                    <ol>
+                      <li><span class="sticky-header">(I)</span> A nested ordered list Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus hendrerit. Pellentesque aliquet nibh nec urna. In nisi neque, aliquet vel, dapibus id, mattis vel, nisi. Sed pretium, ligula sollicitudin laoreet viverra, tortor libero sodales leo, eget blandit nunc tortor eu nibh. Nullam mollis. Ut justo. Suspendisse potenti.</li>
+                      <li><span class="sticky-header">(II)</span> A nested list</li>
+                    </ol>
+                  </li>
+                  <li><span class="sticky-header">(D)</span> A nested list</li>
+                </ol>
+              </li>
+              <li><span class="sticky-header">(ii)</span> A nested list Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus hendrerit. Pellentesque aliquet nibh nec urna. In nisi neque, aliquet vel, dapibus id, mattis vel, nisi. Sed pretium, ligula sollicitudin laoreet viverra, tortor libero sodales leo, eget blandit nunc tortor eu nibh. Nullam mollis. Ut justo. Suspendisse potenti.</li>
+              <li><span class="sticky-header">(iii)</span> A nested list</li>
+              <li><span class="sticky-header">(iv)</span> A nested list Ut convallis, sem sit amet interdum consectetuer, odio augue aliquam leo, nec dapibus tortor nibh sed augue. Integer eu magna sit amet metus fermentum posuere. Morbi sit amet nulla sed dolor elementum imperdiet. Quisque fermentum. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Pellentesque adipiscing eros ut libero. Ut condimentum mi vel tellus. Suspendisse laoreet. Fusce ut est sed dolor gravida convallis. Morbi vitae ante. Vivamus ultrices luctus nunc. Suspendisse et dolor. Etiam dignissim. Proin malesuada adipiscing lacus. Donec metus. Curabitur gravida.
+                <ol>
+                  <li><span class="sticky-header">(A)</span> A nested ordered list</li>
+                  <li><span class="sticky-header">(B)</span> A nested list Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris sit amet orci. Aenean dignissim pellentesque felis.</li>
+                  <li><span class="sticky-header">(C)</span> A nested list</li>
+                  <li><span class="sticky-header">(D)</span> A nested list Suspendisse mauris. Fusce accumsan mollis eros. Pellentesque a diam sit amet mi ullamcorper vehicula. Integer adipiscing risus a sem. Nullam quis massa sit amet nibh viverra malesuada. Nunc sem lacus, accumsan quis, faucibus non, congue vel, arcu. Ut scelerisque hendrerit tellus. Integer sagittis. Vivamus a mauris eget arcu gravida tristique. Nunc iaculis mi in ante. Vivamus imperdiet nibh feugiat est.</li>
+                </ol>
+              </li>
+            </ol>
+          </li>
+          <li><span class="sticky-header">(c)</span> A nested list Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus.</li>
+        </ol>
+      </li>
+      <li><span class="sticky-header">(4)</span> And here is number four.</li>
+      <li><span class="sticky-header">(5)</span> List item five. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus hendrerit. Pellentesque aliquet nibh nec urna. In nisi neque, aliquet vel, dapibus id, mattis vel, nisi. Sed pretium, ligula sollicitudin laoreet viverra, tortor libero sodales leo, eget blandit nunc tortor eu nibh. Nullam mollis. Ut justo. Suspendisse potenti.</li>
+      <li><span class="sticky-header">(6)</span> The sixth item on the list
+        <ol>
+          <li><span class="sticky-header">(a)</span> A nested ordered list</li>
+          <li><span class="sticky-header">(b)</span> A nested list Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris sit amet orci. Aenean dignissim pellentesque felis.
+            <ol>
+              <li><span class="sticky-header">(i)</span> A nested ordered list Suspendisse mauris. Fusce accumsan mollis eros. Pellentesque a diam sit amet mi ullamcorper vehicula. Integer adipiscing risus a sem. Nullam quis massa sit amet nibh viverra malesuada. Nunc sem lacus, accumsan quis, faucibus non, congue vel, arcu. Ut scelerisque hendrerit tellus. Integer sagittis. Vivamus a mauris eget arcu gravida tristique. Nunc iaculis mi in ante. Vivamus imperdiet nibh feugiat est.
+                <ol>
+                  <li><span class="sticky-header">(A)</span> A nested ordered list</li>
+                  <li><span class="sticky-header">(B)</span> A nested list Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus hendrerit. Pellentesque aliquet nibh nec urna. In nisi neque, aliquet vel, dapibus id, mattis vel, nisi. Sed pretium, ligula sollicitudin laoreet viverra, tortor libero sodales leo, eget blandit nunc tortor eu nibh. Nullam mollis. Ut justo. Suspendisse potenti.</li>
+                  <li><span class="sticky-header">(C)</span> A nested list
+                    <ol>
+                      <li><span class="sticky-header">(I)</span> A nested ordered list Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus.</li>
+                      <li><span class="sticky-header">(II)</span> A nested list</li>
+                    </ol>
+                  </li>
+                  <li><span class="sticky-header">(D)</span> A nested list</li>
+                </ol>
+              </li>
+              <li><span class="sticky-header">(ii)</span> A nested list Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris sit amet orci. Aenean dignissim pellentesque felis.</li>
+              <li><span class="sticky-header">(iii)</span> A nested list</li>
+              <li><span class="sticky-header">(iv)</span> A nested list Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus.</li>
+            </ol>
+          </li>
+          <li><span class="sticky-header">(c)</span> A nested list Ut convallis, sem sit amet interdum consectetuer, odio augue aliquam leo, nec dapibus tortor nibh sed augue. Integer eu magna sit amet metus fermentum posuere. Morbi sit amet nulla sed dolor elementum imperdiet. Quisque fermentum. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Pellentesque adipiscing eros ut libero. Ut condimentum mi vel tellus. Suspendisse laoreet. Fusce ut est sed dolor gravida convallis. Morbi vitae ante. Vivamus ultrices luctus nunc. Suspendisse et dolor. Etiam dignissim. Proin malesuada adipiscing lacus. Donec metus. Curabitur gravida.</li>
+        </ol>
+      </li>
+      <li><span class="sticky-header">(7)</span> Number seven is a bit longer, with some lorem ipsum for good measure. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+      </li>
+      <li><span class="sticky-header">(8)</span> And here is number 8.
+        <ol>
+          <li><span class="sticky-header">(a)</span> A nested unordered list</li>
+          <li><span class="sticky-header">(b)</span> A nested list Suspendisse mauris. Fusce accumsan mollis eros. Pellentesque a diam sit amet mi ullamcorper vehicula. Integer adipiscing risus a sem. Nullam quis massa sit amet nibh viverra malesuada. Nunc sem lacus, accumsan quis, faucibus non, congue vel, arcu. Ut scelerisque hendrerit tellus. Integer sagittis. Vivamus a mauris eget arcu gravida tristique. Nunc iaculis mi in ante. Vivamus imperdiet nibh feugiat est.</li>
+          <li><span class="sticky-header">(c)</span> A nested list Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris sit amet orci. Aenean dignissim pellentesque felis.</li>
+        </ol>
+      </li>
+      <li><span class="sticky-header">(9)</span> List item 9.
+        <ol>
+          <li><span class="sticky-header">(a)</span> A nested ordered list</li>
+          <li><span class="sticky-header">(b)</span> A nested list Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris sit amet orci. Aenean dignissim pellentesque felis.
+            <ol>
+              <li><span class="sticky-header">(i)</span> A nested ordered list
+                <ol>
+                  <li><span class="sticky-header">(A)</span> A nested ordered list Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus hendrerit. Pellentesque aliquet nibh nec urna. In nisi neque, aliquet vel, dapibus id, mattis vel, nisi. Sed pretium, ligula sollicitudin laoreet viverra, tortor libero sodales leo, eget blandit nunc tortor eu nibh. Nullam mollis. Ut justo. Suspendisse potenti.</li>
+                  <li><span class="sticky-header">(B)</span> A nested list</li>
+                  <li><span class="sticky-header">(C)</span> A nested list Ut convallis, sem sit amet interdum consectetuer, odio augue aliquam leo, nec dapibus tortor nibh sed augue. Integer eu magna sit amet metus fermentum posuere. Morbi sit amet nulla sed dolor elementum imperdiet. Quisque fermentum. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Pellentesque adipiscing eros ut libero. Ut condimentum mi vel tellus. Suspendisse laoreet. Fusce ut est sed dolor gravida convallis. Morbi vitae ante. Vivamus ultrices luctus nunc. Suspendisse et dolor. Etiam dignissim. Proin malesuada adipiscing lacus. Donec metus. Curabitur gravida.
+                    <ol>
+                      <li><span class="sticky-header">(I)</span> A nested ordered list Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus.</li>
+                      <li><span class="sticky-header">(II)</span> A nested list Suspendisse mauris. Fusce accumsan mollis eros. Pellentesque a diam sit amet mi ullamcorper vehicula. Integer adipiscing risus a sem. Nullam quis massa sit amet nibh viverra malesuada. Nunc sem lacus, accumsan quis, faucibus non, congue vel, arcu. Ut scelerisque hendrerit tellus. Integer sagittis. Vivamus a mauris eget arcu gravida tristique. Nunc iaculis mi in ante. Vivamus imperdiet nibh feugiat est.</li>
+                    </ol>
+                  </li>
+                  <li><span class="sticky-header">(D)</span> A nested list Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus hendrerit. Pellentesque aliquet nibh nec urna. In nisi neque, aliquet vel, dapibus id, mattis vel, nisi. Sed pretium, ligula sollicitudin laoreet viverra, tortor libero sodales leo, eget blandit nunc tortor eu nibh. Nullam mollis. Ut justo. Suspendisse potenti.</li>
+                </ol>
+              </li>
+              <li><span class="sticky-header">(ii)</span> A nested list Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris sit amet orci. Aenean dignissim pellentesque felis.</li>
+              <li><span class="sticky-header">(iii)</span> A nested list Ut convallis, sem sit amet interdum consectetuer, odio augue aliquam leo, nec dapibus tortor nibh sed augue. Integer eu magna sit amet metus fermentum posuere. Morbi sit amet nulla sed dolor elementum imperdiet. Quisque fermentum. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Pellentesque adipiscing eros ut libero. Ut condimentum mi vel tellus. Suspendisse laoreet. Fusce ut est sed dolor gravida convallis. Morbi vitae ante. Vivamus ultrices luctus nunc. Suspendisse et dolor. Etiam dignissim. Proin malesuada adipiscing lacus. Donec metus. Curabitur gravida.</li>
+              <li><span class="sticky-header">(iv)</span> A nested list</li>
+            </ol>
+          </li>
+          <li><span class="sticky-header">(c)</span> A nested list Suspendisse mauris. Fusce accumsan mollis eros. Pellentesque a diam sit amet mi ullamcorper vehicula. Integer adipiscing risus a sem. Nullam quis massa sit amet nibh viverra malesuada. Nunc sem lacus, accumsan quis, faucibus non, congue vel, arcu. Ut scelerisque hendrerit tellus. Integer sagittis. Vivamus a mauris eget arcu gravida tristique. Nunc iaculis mi in ante. Vivamus imperdiet nibh feugiat est.</li>
+        </ol>
+      </li>
+      <li><span class="sticky-header">(10)</span> The tenth and last item on the list Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus hendrerit. Pellentesque aliquet nibh nec urna. In nisi neque, aliquet vel, dapibus id, mattis vel, nisi. Sed pretium, ligula sollicitudin laoreet viverra, tortor libero sodales leo, eget blandit nunc tortor eu nibh. Nullam mollis. Ut justo. Suspendisse potenti.</li>
+    </ol>
+  </div>
+</body>
+</html>
