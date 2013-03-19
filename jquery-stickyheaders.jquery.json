@@ -1,0 +1,27 @@
+{
+  "name": "jquery-stickyheaders",
+  "title": "jQuery stickyHeaders",
+  "description": "Sticky nested headings on page scroll.",
+  "version": "0.1.0",
+  "homepage": "https://github.com/TheWebShop/jquery-stickyheaders",
+  "author": {
+    "name": "Kevin Attfield",
+    "email": "k.attfield@gmail.com",
+    "url": "https://github.com/Sinetheta"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/TheWebShop/jquery-stickyheaders.git"
+  },
+  "bugs": "https://github.com/TheWebShop/jquery-stickyheaders/issues",
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/TheWebShop/jquery-stickyheaders/blob/master/LICENSE-MIT"
+    }
+  ],
+  "dependencies": {
+    "jquery": "*"
+  },
+  "keywords": []
+}
